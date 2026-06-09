@@ -31,10 +31,18 @@ export default defineType({
     }),
     defineField({
       name: 'title',
-      title: 'Title',
+      title: 'Technical title',
       type: 'string',
       group: 'header',
+      description: 'The canonical activity title from the SEAM Standard document. Always shown in the digital Standard and in reviewer/practitioner contexts.',
       validation: (r) => r.required(),
+    }),
+    defineField({
+      name: 'marketingTitle',
+      title: 'Marketing title (optional)',
+      type: 'string',
+      group: 'header',
+      description: 'Optional plain-language alternative used in marketing surfaces (marks listings, audience pages, etc.). Leave blank to fall back to the Technical title.',
     }),
     defineField({
       name: 'slug',
@@ -98,6 +106,22 @@ export default defineType({
       group: 'header',
       description: 'When true, this activity can be earned standalone as a SEAM Mark.',
       initialValue: false,
+    }),
+    defineField({
+      name: 'markPrerequisites',
+      title: 'Mark prerequisites (optional)',
+      type: 'array',
+      of: [{ type: 'reference', to: [{ type: 'activity' }] }],
+      group: 'header',
+      description: 'Other activities that must be completed before this Mark can be earned. Used when activities are combined into a single Mark (e.g. CIa1.2 absorbs CIa1.1, so CIa1.2 lists CIa1.1 here).',
+    }),
+    defineField({
+      name: 'markCombinedWith',
+      title: 'Combined-with (optional)',
+      type: 'reference',
+      to: [{ type: 'activity' }],
+      group: 'header',
+      description: 'When this activity is Mark-eligible only as part of another activity\'s combined Mark, link to the host activity here (e.g. CIa1.1 is combined with CIa1.2). The activity will be hidden from the standalone Marks listing but shown on the digital Standard as Mark-eligible in association.',
     }),
     defineField({
       name: 'sdgs',
